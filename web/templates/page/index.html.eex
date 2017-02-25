@@ -1,7 +1,7 @@
 <div class="jumbotron">
   <h2>Postr generator</h2>
   <div class="text-left">
-    <%= form_for @conn, page_path(@conn, :index), [as: :generate], fn f -> %>
+    <%= form_for @conn, page_path(@conn, :index), [as: :generate, csrf_token: true], fn f -> %>
       <div class="form-group"><%= text_input f, :image_url, placeholder: "Image URL", class: "form-control" %></div>
       <div class="form-group"><%= textarea f, :source_code, placeholder: "Source Code", class: "form-control" %></div>
       <%= submit "Generate!" %>

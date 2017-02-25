@@ -6,11 +6,13 @@ defmodule Postr.PageController do
     with {:ok, fname} <- Downloader.download(image_url),
          {:ok, image} <- Image.load(fname)
     do
-      Image.merge(image, source_code)
+      svg = Image.merge(image, source_code)
       File.rm!(fname)
       conn
-      |> put_flash(:info, "Nice one")
-      |> render("index.html")
+      |> put_resp_content_type("image/svg+xml")
+      |> put_resp_header("content-disposition",
+                         ~s(attachment; filename="postr.svg"))
+      |> send_resp(200, svg)
     else
       _ ->
         conn
