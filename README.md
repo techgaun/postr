@@ -17,4 +17,4 @@ All thanks to Pete Corey as he did the hard job of determining ratios and scalin
 - `mix phoenix.server`
 - Go to http://localhost:4000
 - Enter the URL of image (PNG) and put source code you want in the poster.
-- A file `out.svg` will be downloaded once the SVG is generated.
+- A file `postr.svg` will be downloaded once the SVG is generated.
