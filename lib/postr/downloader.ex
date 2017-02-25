@@ -12,6 +12,7 @@ defmodule Postr.Downloader do
       {:ok, %HTTPoison.Response{body: body}} ->
         fname = filename()
         File.write!(fname, body)
+        resize(fname)
         {:ok, fname}
       _ -> :error
     end
@@ -20,5 +21,12 @@ defmodule Postr.Downloader do
 
   defp filename do
     "#{System.tmp_dir()}/#{System.system_time()}.png"
+  end
+
+  defp resize(fname) do
+    case System.find_executable("mogrify") do
+      nil -> :error
+      mogrify -> System.cmd(mogrify, ["-resize", "166.7%x100%", fname])
+    end
   end
 end

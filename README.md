@@ -1,19 +1,20 @@
 # Postr
 
-To start your Phoenix app:
+[Postr](http://postr.techgaun.com/) is a very simple phoenix app based on the information from [Pete Corey's ElixirPoster](http://www.east5th.co/blog/2017/02/13/build-your-own-code-poster-with-elixir).
+All thanks to Pete Corey as he did the hard job of determining ratios and scaling that I used here.
 
-  * Install dependencies with `mix deps.get`
-  * Install Node.js dependencies with `npm install`
-  * Start Phoenix endpoint with `mix phoenix.server`
+- Postr uses Imagineer under the hood but I avoided use of xml_builder and instead built the SVG manually so as to make it little faster.
+- If imagemagick is installed, it will automatically rescale image to 1.667x1
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+![Postr](images/postr.png)
 
-Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
 
-## Learn more
+### Up and Running
 
-  * Official website: http://www.phoenixframework.org/
-  * Guides: http://phoenixframework.org/docs/overview
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+- `git clone git@github.com:techgaun/postr.git`
+- `cd postr`
+- `mix deps.get`
+- `mix phoenix.server`
+- Go to http://localhost:4000
+- Enter the URL of image (PNG) and put source code you want in the poster.
+- A file `out.svg` will be downloaded once the SVG is generated.
