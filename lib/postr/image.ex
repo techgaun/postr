@@ -75,12 +75,13 @@ defmodule Postr.Image do
   end
 
   defp new_text_element(x, y, fill, chr) do
-    "<text fill='#{fill}' x='#{x}' y='#{y}'>#{chr}</text>"
+    "<text fill='#{fill}' x='#{x}' y='#{y}'>#{escape(chr)}</text>"
   end
 
   defp normalize_code(code) do
     code
     |> String.replace(~r/\s+/, " ")
+    |> String.replace(~r/'/, "")
     |> String.trim()
     |> String.codepoints()
   end
@@ -96,4 +97,12 @@ defmodule Postr.Image do
   end
 
   defp encode(v), do: v |> :binary.encode_unsigned() |> Base.encode16()
+
+  defp escape(string) do
+    string
+    |> String.replace(">", "&gt;")
+    |> String.replace("<", "&lt;")
+    |> replace_ampersand
+  end
+  defp replace_ampersand(string), do: Regex.replace(~r/&(?!lt;|gt;|quot;)/, string, "&amp;")
 end
