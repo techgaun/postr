@@ -27,8 +27,8 @@ defmodule Postr.Downloader do
     case System.find_executable("mogrify") do
       nil -> :error
       mogrify ->
-        System.cmd(mogrify, ["-resize", "166.7%x100%", fname])
-        System.cmd(mogrify, ["-resize", "398x300", fname])
+        System.cmd(mogrify, ["-resize", "166.7%x100%!", fname])
+        System.cmd(mogrify, ["-resize", "398x", fname])
     end
   end
 end
