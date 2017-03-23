@@ -30,7 +30,7 @@ defmodule Postr.Image do
   defp generate_svg(image) do
     """
     <svg height="#{image.out_height}" width="#{image.out_width}" viewBox="0 0 #{image.ratio * image.image.width} #{image.image.height}"
-    style="font-family: 'Source Code Pro'; font-size: 1; font-weight: 900;" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">#{image.text_elements}</svg>
+    style="font-family: 'Source Code Pro'; font-size: 1; font-weight: 700;" xmlns="http://www.w3.org/2000/svg">#{Enum.join(image.text_elements, "\n")}</svg>
     """
   end
 
