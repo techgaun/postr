@@ -89,6 +89,7 @@ defmodule Postr.Image do
   defp choose_code([], full_code), do: full_code
   defp choose_code(code, _), do: code
 
+  defp to_hex({r, g, b, 255}), do: to_hex([r, g, b])
   defp to_hex(pixel) when is_tuple(pixel), do: pixel |> Tuple.to_list() |> to_hex()
 
   defp to_hex(items) when is_list(items) do
