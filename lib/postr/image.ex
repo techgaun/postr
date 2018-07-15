@@ -29,32 +29,37 @@ defmodule Postr.Image do
 
   defp generate_svg(image) do
     """
-    <svg height="#{image.out_height}" width="#{image.out_width}" viewBox="0 0 #{image.ratio * image.image.width} #{image.image.height}"
-    style="font-family: 'Source Code Pro'; font-size: 1; font-weight: 700;" xmlns="http://www.w3.org/2000/svg">#{Enum.join(image.text_elements, "\n")}</svg>
+    <svg height="#{image.out_height}" width="#{image.out_width}" viewBox="0 0 #{
+      image.ratio * image.image.width
+    } #{image.image.height}"
+    style="font-family: 'Source Code Pro'; font-size: 1; font-weight: 700;" xmlns="http://www.w3.org/2000/svg">#{
+      Enum.join(image.text_elements, "\n")
+    }</svg>
     """
   end
 
-  defp load_text_elements(image = %Image{code: code, ratio: ratio,
-                                         image: %{pixels: pixels}}) do
+  defp load_text_elements(image = %Image{code: code, ratio: ratio, image: %{pixels: pixels}}) do
     {elems, _} =
       pixels
-      |> Enum.with_index
+      |> Enum.with_index()
       |> Enum.reduce({[], code}, fn {row, row_idx}, {elems, c} ->
         {row_elems, code} = transform_row(row, row_idx, ratio, code, choose_code(c, code))
         {[row_elems | elems], code}
       end)
+
     %{image | text_elements: Enum.reverse(elems)}
   end
 
   defp transform_row(row, row_idx, ratio, full_code, code) do
     {row_elems, code} =
       row
-      |> Enum.with_index
+      |> Enum.with_index()
       |> Enum.reduce({[], code}, fn {pt, x}, {row_elems, code} ->
         [chr | code] = choose_code(code, full_code)
         x = x * ratio
         {build_element(x, row_idx, to_hex(pt), chr, row_elems), code}
       end)
+
     {Enum.reverse(row_elems), code}
   end
 
@@ -93,8 +98,7 @@ defmodule Postr.Image do
   defp to_hex(pixel) when is_tuple(pixel), do: pixel |> Tuple.to_list() |> to_hex()
 
   defp to_hex(items) when is_list(items) do
-    "#" <>
-    Enum.map_join(items, &(encode(&1)))
+    "#" <> Enum.map_join(items, &encode(&1))
   end
 
   defp encode(v), do: v |> :binary.encode_unsigned() |> Base.encode16()
@@ -105,5 +109,6 @@ defmodule Postr.Image do
     |> String.replace("<", "&lt;")
     |> replace_ampersand
   end
+
   defp replace_ampersand(string), do: Regex.replace(~r/&(?!lt;|gt;|quot;)/, string, "&amp;")
 end
